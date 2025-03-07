@@ -33,7 +33,7 @@ def input_index (player, index):
         if (not validate_index(index)):
             print("Enter a valid index!")
     return int(index)
-def allocate_choice(player, testboard):
+def allocate_choice(player, testboard, player1, player2):
     index = input_index(player, "")
     while testboard[index] in ['X' , 'O']:
         print ("Already taken. Enter another one!")
@@ -41,9 +41,9 @@ def allocate_choice(player, testboard):
         if testboard[index] not in ['X' , 'O']:
             break  
     if player==1:
-        testboard[index] = 'X'
+        testboard[index] = player1
     else:
-        testboard[index] = 'O'
+        testboard[index] = player2
 
 def result(testboard, player1):
     row = [1, 4, 7]
@@ -114,21 +114,21 @@ def main():
     print("\n")
     count = 1
     while count < 10:
-        game_result = result(testboard, player1)
-        if (not game_result):
-            for i in [1, 2]:
-                game_result = result(testboard, player1)
-                if (not game_result) and count <10:
-                    allocate_choice(i, testboard)
-                    display_board(testboard)
-                    count += 1
-                elif count >9:
-                    print("It's a tie! Well played")
+        for i in [1, 2]:
+            # game_result = result(testboard, player1)
+            # if (game_result):
+            #     return
+            if count <10:
+                allocate_choice(i, testboard, player1, player2)
+                display_board(testboard)
+                if (result(testboard, player1)):
                     return
-                else:
-                    return
-        else:
-            return
+                count += 1
+            elif count >9:
+                print("It's a tie! Well played")
+                return
+            else:
+                return
     else:
         if count>9:
             print("It's a tie! Well played")
